@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <base target="_top">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>愛蓮說互動教學網 - 完整版</title>
+    
+    <!-- 外部資源庫 (Tailwind, Lucide Icons, Google Fonts) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&family=Noto+Serif+TC:wght@400;700;900&family=Ma+Shan+Zheng&family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    
+    <!-- 引入拆分後的 CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- ========================================= -->
+    <!-- 靜態全螢幕彈窗結構 (由 Utils.js 控制顯示) -->
+    <!-- ========================================= -->
+
+    <!-- 1. 全屏解析卡片 (牡丹) -->
+    <div id="full-analysis-card">
+        <div class="analysis-card-content" onclick="event.stopPropagation()">
+            <div class="analysis-close-btn">✕</div>
+            <div class="analysis-original">世人盛愛牡丹</div>
+            <div class="analysis-detail">
+                <ol style="list-style-type: decimal; padding-left: 80px;">
+                    <li>牡丹為「富貴」的象徵。</li>
+                    <li>反襯自己愛蓮的脫俗。</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. 蓮之愛全屏解析圖卡 -->
+    <div id="lt-full-screen-popup" class="lt-full-screen-overlay">
+        <div class="lt-trait-card" onclick="event.stopPropagation()">
+            <span class="close-btn">&times;</span>
+            <div class="lt-card-content-wrapper">
+                <div class="lt-card-image-box">
+                    <img id="lt-popup-image" src="" alt="情境示意圖">
+                </div>
+                <div class="lt-card-text-box">
+                    <div class="original-text" id="lt-popup-trait-text"></div>
+                    <div class="description" id="lt-popup-description-text"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. 全螢幕圖片檢視器 -->
+    <div id="fullscreen-modal-image">
+        <img id="fullscreen-img-tag" src="" alt="Fullscreen Image">
+        <div style="position: absolute; bottom: 30px; color: white; font-size: 1.2rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">
+            點擊任意處關閉
+        </div>
+    </div>
+
+    <!-- 4. 通用全螢幕 Modal (用於顯示文字解析、測驗詳解等) -->
+    <div id="fullscreen-modal">
+        <div class="modal-card" id="modal-card" onclick="event.stopPropagation()">
+            <div class="modal-close-hint">✕</div>
+            <div id="modal-content-area"></div>
+        </div>
+    </div>
+
+    <!-- ========================================= -->
+    <!-- 主畫面結構 -->
+    <!-- ========================================= -->
+    <div id="main-container">
+        
+        <!-- 頂部導覽列 -->
+        <div class="header-bar" id="header-bar">
+            <div class="title-group">
+                <div class="title">愛蓮說互動教學網</div>
+                <div class="subtitle" id="dynamic-subtitle">課文補給站</div>
+            </div>
+            <!-- 下拉選單 (main.js 會自動填充選項) -->
+            <select id="quick-nav"></select>
+        </div>
+
+        <!-- 內容顯示區 (JS 會動態將內容渲染到這裡) -->
+        <div id="content-area">
+            <div id="loading-indicator">系統載入中...</div>
+        </div>
+
+        <!-- 底部導覽按鈕 -->
+        <div class="footer-nav" id="footer-nav">
+            <button id="btn-prev">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m15 18-6-6 6-6" />
+                </svg>
+                上一頁
+            </button>
+            
+            <span id="page-indicator">讀取中...</span>
+            
+            <button id="btn-next">
+                下一頁
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m9 18 6-6-6-6" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- ========================================= -->
+    <!-- 引入主程式 (模組化入口) -->
+    <!-- ========================================= -->
+    <script type="module" src="js/main.js"></script>
+
+</body>
+</html>
