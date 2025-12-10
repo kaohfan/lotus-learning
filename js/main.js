@@ -34,6 +34,7 @@ const rendererMap = {
     'video': Renderers.renderVideo,
     'text-study': Renderers.renderTextStudy,
     'cloze-passage': Renderers.renderClozePassage,
+    'word-meaning-quiz': Renderers.renderWordMeaningQuiz,
     'card': Renderers.renderCard,
     // 如果有未定義的 type，稍後會使用預設的 renderCard
 };

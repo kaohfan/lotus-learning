@@ -1463,3 +1463,103 @@ export function renderCard(data, container, currentPage) {
     }
     container.appendChild(group);
 }
+// js/renderers.js
+
+// ... (其他的 render 函數)
+
+export function renderWordMeaningQuiz(data, container) {
+    // 1. 頂部導覽列
+    const topBar = document.createElement('div');
+    topBar.style.width = '100%';
+    topBar.style.display = 'flex';
+    topBar.style.justifyContent = 'space-between';
+    topBar.style.alignItems = 'center';
+    topBar.style.marginBottom = '20px';
+
+    const tag = document.createElement('div');
+    tag.className = 'tag knowledge'; // 使用現有的 knowledge 標籤樣式
+    tag.innerText = data.title;
+
+    const resetBtn = document.createElement('button');
+    resetBtn.innerHTML = '重新練習';
+    // 這裡我們直接使用一個簡單的重置邏輯，不依賴全域函數
+    resetBtn.onclick = function () {
+        const answers = container.querySelectorAll('.wm-answer-symbol');
+        const items = container.querySelectorAll('.wm-question-item');
+        answers.forEach(el => el.classList.remove('opacity-100'));
+        answers.forEach(el => el.classList.add('opacity-0'));
+        items.forEach(el => el.querySelector('.wm-explanation').style.display = 'none');
+        container.querySelector('.practice-container').scrollTop = 0;
+    };
+    resetBtn.style.backgroundColor = '#57534e';
+    resetBtn.style.color = '#ffffff';
+
+    topBar.appendChild(tag);
+    topBar.appendChild(resetBtn);
+
+    // 2. 主容器 (模仿你提供的 HTML 樣式)
+    const practiceContainer = document.createElement('div');
+    practiceContainer.className = 'practice-container w-full max-w-5xl mx-auto bg-white/95 p-8 rounded-xl shadow-md border-2 border-stone-200';
+
+    // 說明文字
+    const intro = document.createElement('p');
+    intro.className = 'mb-8 text-stone-600 text-2xl text-center font-bold font-serif-tc';
+    intro.innerHTML = `${data.intro}<br><span class="text-lg text-stone-400 font-normal mt-2 block">(點擊題目可查看答案與解析)</span>`;
+    practiceContainer.appendChild(intro);
+
+    // 題目列表
+    const list = document.createElement('div');
+    list.className = 'flex flex-col gap-6';
+
+    data.questions.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'wm-question-item bg-white border border-stone-200 rounded-lg p-6 hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer';
+
+        // 點擊事件：切換答案顯示
+        div.onclick = function () {
+            const ans = this.querySelector('.wm-answer-symbol');
+            const exp = this.querySelector('.wm-explanation');
+
+            if (ans.classList.contains('opacity-100')) {
+                ans.classList.remove('opacity-100');
+                ans.classList.add('opacity-0');
+                exp.style.display = 'none';
+            } else {
+                ans.classList.remove('opacity-0');
+                ans.classList.add('opacity-100');
+                exp.style.display = 'block';
+            }
+        };
+
+        // 處理題目文字 highlight
+        let formattedText = item.text.replace(/「(.*?)」/g, '「<span class="text-amber-700 font-bold">$1</span>」');
+
+        div.innerHTML = `
+            <div class="flex items-start text-3xl text-stone-700 leading-relaxed font-serif-tc">
+                <span class="font-bold text-stone-500 mr-4 min-w-[3.5em] font-serif-tc">
+                    （<span class="wm-answer-symbol text-red-600 font-bold opacity-0 transition-opacity duration-300 inline-block text-center w-[1.2em]">${item.answer}</span>）
+                </span>
+                <div class="flex-1">
+                    <span class="mr-2 text-stone-400 font-sans text-xl font-bold">${index + 1}.</span>
+                    ${formattedText}
+                </div>
+            </div>
+            <div class="wm-explanation mt-4 ml-[4.5em] p-5 bg-red-50 border-l-4 border-red-400 rounded-r text-red-800 text-2xl hidden animate-fade-in-down leading-relaxed font-serif-tc">
+                ${item.explanation}
+            </div>
+        `;
+        list.appendChild(div);
+    });
+
+    practiceContainer.appendChild(list);
+
+    const group = document.createElement('div');
+    group.className = 'sentence-group';
+    group.style.alignItems = 'center';
+    group.style.width = '100%';
+
+    group.appendChild(topBar);
+    group.appendChild(practiceContainer);
+
+    container.appendChild(group);
+}

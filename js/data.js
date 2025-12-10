@@ -664,5 +664,79 @@ export const pagesData = [
                 ]
             }
         ]
+    },
+    // js/data.js
+
+    // ... (前面的資料)
+
+    {
+        id: 48,  // 記得修改 ID 以接續上一筆
+        type: "word-meaning-quiz",
+        title: "應用練習：字義比較",
+        intro: "判斷下列各句「　」中的字義，前後相同的請在（　）中畫○，不同的畫 ╳。",
+        questions: [
+            {
+                id: 1,
+                text: "水陸草木「之」花／予獨愛蓮「之」出淤泥而不染",
+                answer: "╳",
+                explanation: "的 ／ 無義（助詞，取消句子獨立性）"
+            },
+            {
+                id: 2,
+                text: "菊，花「之」隱逸者也／菊「之」愛，陶後鮮有聞",
+                answer: "╳",
+                explanation: "的 ／ 表賓語提前，無義"
+            },
+            {
+                id: 3,
+                text: "出淤泥「而」不染／可遠觀「而」不可褻玩焉",
+                answer: "○",
+                explanation: "卻 ／ 卻（皆為轉折連詞）"
+            },
+            {
+                id: 4,
+                text: "「予」謂／同「予」者何人",
+                answer: "○",
+                explanation: "我 ／ 我"
+            },
+            {
+                id: 5,
+                text: "濯清漣「而」不妖／人不知「而」不慍",
+                answer: "○",
+                explanation: "卻 ／ 卻（皆為轉折連詞）"
+            },
+            {
+                id: 6,
+                text: "牡丹之愛，宜「乎」眾矣／學而時習之，不亦說「乎」",
+                answer: "╳",
+                explanation: "無義（助詞） ／ 用於句末，與「不亦」構成反詰的語氣"
+            },
+            {
+                id: 7,
+                text: "陶後「鮮」有聞／芳草「鮮」美",
+                answer: "╳",
+                explanation: "少 ／ 新鮮、鮮豔"
+            },
+            {
+                id: 8,
+                text: "世人「盛」愛牡丹／太平「盛」世",
+                answer: "╳",
+                explanation: "非常 ／ 興旺"
+            },
+            {
+                id: 9,
+                text: "亭亭淨「植」／種「植」樹木",
+                answer: "╳",
+                explanation: "立 ／ 栽種、培育"
+            },
+            {
+                id: 10,
+                text: "香遠「益」清／延年「益」壽",
+                answer: "╳",
+                explanation: "更加 ／ 增加"
+            }
+        ]
     }
+
+    // ... (後面的資料)
 ];
