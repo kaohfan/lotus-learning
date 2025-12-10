@@ -672,7 +672,7 @@ export const pagesData = [
     {
         id: 48,  // 記得修改 ID 以接續上一筆
         type: "word-meaning-quiz",
-        title: "應用練習：字義比較",
+        title: "字義比較",
         intro: "判斷下列各句「　」中的字義，前後相同的請在（　）中畫○，不同的畫 ╳。",
         questions: [
             {
