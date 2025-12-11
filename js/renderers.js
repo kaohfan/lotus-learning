@@ -297,6 +297,10 @@ export function renderPlantSymbolQuiz(data, container) {
     container.appendChild(group);
 }
 
+// js/renderers.js
+
+// ... (前面的程式碼) ...
+
 export function renderPoemReading(data, container) {
     // 1. 頂部工具列
     const topBar = document.createElement('div');
@@ -307,7 +311,7 @@ export function renderPoemReading(data, container) {
     topBar.style.marginBottom = '20px';
 
     const tag = document.createElement('div');
-    tag.className = 'tag video';
+    tag.className = 'tag video'; // 使用藍色標籤
     tag.innerText = data.title;
 
     const resetBtn = document.createElement('button');
@@ -319,88 +323,155 @@ export function renderPoemReading(data, container) {
     topBar.appendChild(tag);
     topBar.appendChild(resetBtn);
 
-    // 2. 主內容容器
+    // 2. 主內容容器 (套用 article-container 樣式)
     const mainWrapper = document.createElement('div');
-    mainWrapper.className = 'poem-reading-container';
+    mainWrapper.className = 'article-container w-full max-w-5xl mx-auto bg-white border-2 border-stone-200 rounded-2xl p-10 shadow-sm';
 
-    // 詩詞展示區
-    const poemBox = document.createElement('div');
-    poemBox.className = 'poem-box';
-
-    poemBox.innerHTML = `
-        <div style="text-align:center; margin-bottom:20px;">
-            <span style="background-color:#fef3c7; color:#92400e; padding:5px 15px; border-radius:20px; font-weight:bold; font-size:1.4rem;">說明</span>
-            <span style="font-size:1.6rem; color:#57534e; margin-left:10px;">讀完詩作後，將最適當的答案填入（　）中。</span>
+    // 說明標籤
+    const introHtml = `
+        <div class="text-center mb-4">
+            <span class="bg-amber-100 text-amber-800 px-4 py-1 rounded-full text-lg font-bold font-sans">說明</span>
+            <span class="text-xl text-stone-600 ml-2 font-serif-tc">讀完詩作後，將最適當的答案填入（　）中。</span>
         </div>
-        <h3 style="font-size:2.5rem; font-weight:bold; text-align:center; color:#1c1917; margin-bottom:25px; font-family:'Noto Serif TC';">${data.poemTitle}</h3>
-        <div class="poem-content">${data.poemContent}</div>
-        
-        <div class="poem-info-grid">
-            <div class="poem-info-block notes">
-                <div class="poem-block-title">注釋</div>
-                <ul class="poem-annotation-list">
-                    ${data.annotations.map(item => `<li>${item}</li>`).join('')}
-                </ul>
-            </div>
-            <div class="poem-info-block trans">
-                <div class="poem-block-title">語譯</div>
-                <div class="poem-translation">${data.translation}</div>
+    `;
+
+    // 詩詞展示區 (包含標題、內容、背景圖處理)
+    const poemSectionHtml = `
+        <div class="border-b-2 border-stone-200 mb-8 pb-4">
+            <h3 class="text-3xl font-bold text-center text-stone-800 mb-6 font-serif-tc">${data.poemTitle}</h3>
+            
+            <!-- 詩詞內容容器，相對定位以便放置背景 -->
+            <div class="relative rounded-2xl overflow-hidden border border-stone-100 p-8">
+                <!-- 背景圖層 -->
+                <div class="absolute inset-0 bg-cover bg-center opacity-15 pointer-events-none" 
+                     style="background-image: url('${data.illustration ? data.illustration.src : ''}'); filter: sepia(0.2);">
+                </div>
+                
+                <!-- 詩詞文字 -->
+                <div class="relative z-10 text-[1.8rem] leading-[2] text-stone-950 text-center font-bold font-serif-tc" 
+                     style="text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.9);">
+                    ${data.poemContent}
+                </div>
             </div>
         </div>
     `;
-    mainWrapper.appendChild(poemBox);
 
-    // 提示文字
+    // 雙欄資訊區 (注釋 + 語譯)
+    const infoGridHtml = `
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <!-- 注釋 -->
+            <div class="bg-stone-50 p-6 rounded-xl">
+                <h4 class="text-2xl font-bold text-stone-700 mb-4 border-l-4 border-stone-400 pl-3 font-sans">注釋</h4>
+                <ul class="list-none space-y-2">
+                    ${data.annotations.map(item => `
+                        <li class="text-[1.4rem] text-stone-600 pl-[1.5em] -indent-[1.5em] font-serif-tc">${item}</li>
+                    `).join('')}
+                </ul>
+            </div>
+
+            <!-- 語譯 -->
+            <div class="bg-amber-50 p-6 rounded-xl">
+                <h4 class="text-2xl font-bold text-amber-800 mb-4 border-l-4 border-amber-400 pl-3 font-sans">語譯</h4>
+                <p class="text-xl leading-loose text-stone-700 text-justify font-serif-tc">
+                    ${data.translation}
+                </p>
+            </div>
+        </div>
+    `;
+
+    // 情境圖解區塊 (如果 data 中有 illustration)
+    let illustrationHtml = '';
+    if (data.illustration) {
+        illustrationHtml = `
+            <div class="mt-8 pt-6 border-t-2 border-stone-200">
+                <h4 class="text-2xl font-bold text-rose-800 mb-4 border-l-4 border-rose-400 pl-3 font-sans">詩意圖解</h4>
+                <div class="w-full bg-stone-100 rounded-xl overflow-hidden shadow-md border border-stone-200 group">
+                    <img src="${data.illustration.src}" 
+                         alt="詩意圖解" 
+                         onclick="window.openFullscreenImage(this.src)"
+                         class="w-full h-auto object-cover group-hover:opacity-95 transition-opacity duration-300 cursor-zoom-in">
+                    <div class="p-3 text-center bg-stone-200/50">
+                        <p class="text-stone-600 font-bold text-lg font-serif-tc">${data.illustration.caption}</p>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    // 組合上半部內容
+    mainWrapper.innerHTML = introHtml + poemSectionHtml + infoGridHtml + illustrationHtml;
+
+    // 測驗區域提示
     const hint = document.createElement('div');
+    hint.className = 'text-center text-stone-500 text-2xl font-bold mb-8 animate-pulse mt-10';
     hint.innerText = "👇 閱讀完畢後，請回答下列問題（點擊題目看答案，點擊選項看解析）";
-    hint.style.textAlign = 'center';
-    hint.style.color = '#78716c';
-    hint.style.fontSize = '1.4rem';
-    hint.style.fontWeight = 'bold';
-    hint.style.marginBottom = '20px';
-    hint.style.animation = 'pulse 2s infinite';
-    mainWrapper.appendChild(hint);
 
-    // 測驗區
+    // 測驗題目容器
     const quizContainer = document.createElement('div');
-    quizContainer.className = 'exam-container';
+    quizContainer.className = 'exam-container flex flex-col gap-10 max-w-5xl mx-auto';
 
     const answerMap = { 'A': 0, 'B': 1, 'C': 2, 'D': 3 };
 
     data.quizData.forEach((q, index) => {
         const questionBlock = document.createElement('div');
-        questionBlock.className = 'question-block';
+        questionBlock.className = 'bg-white/90 rounded-2xl p-2';
 
+        // 題目列 (使用 exam-question-row 樣式)
         const qRow = document.createElement('div');
-        qRow.className = 'exam-question-row';
+        qRow.className = 'exam-question-row bg-white p-8 rounded-xl shadow-sm border-2 border-stone-200 flex items-start gap-4 cursor-pointer hover:-translate-y-1 hover:shadow-md hover:border-amber-400 transition-all duration-200 text-3xl leading-relaxed text-stone-800 font-serif-tc';
         qRow.onclick = () => window.toggleExamAnswer(index);
+
         qRow.innerHTML = `
-            <span class="exam-bracket font-bold">（ <span id="ans-slot-${index}" class="exam-answer-slot">${q.answer}</span> ）</span>
-            <div style="flex: 1;">
-                <span class="font-bold text-stone-500 mr-2" style="margin-right:10px;">${q.id}.</span>
+            <span class="font-bold text-2xl min-w-[120px] font-serif-tc whitespace-nowrap">
+                （ <span id="ans-slot-${index}" class="exam-answer-slot inline-block w-12 text-center text-green-600 font-black opacity-0 transition-opacity duration-300">${q.answer}</span> ）
+            </span>
+            <div class="flex-1">
+                <span class="font-bold text-stone-400 mr-2">${q.id}.</span>
                 <span>${q.question}</span>
             </div>
         `;
         questionBlock.appendChild(qRow);
 
+        // 選項列表
         const optionsList = document.createElement('div');
-        optionsList.className = 'exam-options-list';
+        optionsList.className = 'flex flex-col gap-4 px-4 pt-4';
 
         const correctIdx = answerMap[q.answer];
 
         q.options.forEach((opt, optIndex) => {
             const isCorrect = (optIndex === correctIdx);
-            const expClass = isCorrect ? 'correct' : 'wrong';
-            const optItem = document.createElement('div');
-            optItem.className = 'exam-option-item';
+            // 設定正確/錯誤的樣式 (Tailwind class)
+            const expStyle = isCorrect
+                ? 'text-green-800 border-l-8 border-green-400 bg-green-50'
+                : 'text-red-800 border-l-8 border-red-400 bg-red-50';
 
+            const optItem = document.createElement('div');
+            optItem.className = 'exam-option-item rounded-xl transition-all duration-200 group';
+
+            // 點擊展開解析
             optItem.onclick = function () {
                 this.classList.toggle('expanded');
+                const expDiv = this.querySelector('.explanation-box');
+                const textSpan = this.querySelector('.option-text');
+
+                if (this.classList.contains('expanded')) {
+                    expDiv.style.display = 'block';
+                    textSpan.classList.add('bg-white', 'border-amber-600', 'text-stone-900', 'font-bold', 'shadow-sm');
+                    textSpan.classList.remove('bg-white/80', 'border-stone-200', 'text-stone-600');
+                } else {
+                    expDiv.style.display = 'none';
+                    textSpan.classList.remove('bg-white', 'border-amber-600', 'text-stone-900', 'font-bold', 'shadow-sm');
+                    textSpan.classList.add('bg-white/80', 'border-stone-200', 'text-stone-600');
+                }
             };
 
             optItem.innerHTML = `
-                <span class="exam-option-text">${opt.text}</span>
-                <div class="exam-option-explanation ${expClass}">${q.explanation}</div>
+                <span class="option-text block text-[2.2rem] text-stone-600 px-6 py-4 border-2 border-stone-200 rounded-xl bg-white/80 leading-snug transition-all group-hover:bg-amber-50 group-hover:border-amber-300 group-hover:text-stone-900">
+                    ${opt.text}
+                </span>
+                <div class="explanation-box ${expStyle} mt-3 mx-2 p-5 text-[2rem] hidden rounded-r-lg shadow-inner animate-fade-in-down leading-relaxed">
+                    ${q.explanation}
+                </div>
             `;
             optionsList.appendChild(optItem);
         });
@@ -409,8 +480,6 @@ export function renderPoemReading(data, container) {
         quizContainer.appendChild(questionBlock);
     });
 
-    mainWrapper.appendChild(quizContainer);
-
     const group = document.createElement('div');
     group.className = 'sentence-group';
     group.style.alignItems = 'center';
@@ -418,6 +487,8 @@ export function renderPoemReading(data, container) {
 
     group.appendChild(topBar);
     group.appendChild(mainWrapper);
+    group.appendChild(hint);
+    group.appendChild(quizContainer);
 
     container.appendChild(group);
 }
