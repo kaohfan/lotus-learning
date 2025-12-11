@@ -722,9 +722,9 @@ export const pagesData = [
             },
             {
                 id: 7,
-                text: "陶後「鮮」有聞／芳草「鮮」美",
-                answer: "╳",
-                explanation: "少 ／ 新鮮、鮮豔"
+                text: "陶後「鮮」有聞／「鮮」為人知",
+                answer: "○",
+                explanation: "少 ／ 少"
             },
             {
                 id: 8,
