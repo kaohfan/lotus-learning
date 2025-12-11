@@ -22,9 +22,9 @@
     <!-- ========================================= -->
 
     <!-- 1. 全屏解析卡片 (牡丹) -->
-    <div id="full-analysis-card">
+    <div id="full-analysis-card" onclick="closeAnalysisCard()">
         <div class="analysis-card-content" onclick="event.stopPropagation()">
-            <div class="analysis-close-btn">✕</div>
+            <div class="analysis-close-btn" onclick="closeAnalysisCard()">✕</div>
             <div class="analysis-original">世人盛愛牡丹</div>
             <div class="analysis-detail">
                 <ol style="list-style-type: decimal; padding-left: 80px;">
@@ -36,9 +36,9 @@
     </div>
 
     <!-- 2. 蓮之愛全屏解析圖卡 -->
-    <div id="lt-full-screen-popup" class="lt-full-screen-overlay">
+    <div id="lt-full-screen-popup" class="lt-full-screen-overlay" onclick="closeLotusTraitCard()">
         <div class="lt-trait-card" onclick="event.stopPropagation()">
-            <span class="close-btn">&times;</span>
+            <span class="close-btn" onclick="closeLotusTraitCard()">&times;</span>
             <div class="lt-card-content-wrapper">
                 <div class="lt-card-image-box">
                     <img id="lt-popup-image" src="" alt="情境示意圖">
