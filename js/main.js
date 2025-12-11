@@ -70,7 +70,29 @@ function setupGlobalListeners() {
     // 全螢幕圖片關閉
     const modalImg = document.getElementById('fullscreen-modal-image');
     if (modalImg) modalImg.addEventListener('click', Utils.closeFullscreenImage);
+    // js/main.js
 
+    function setupGlobalListeners() {
+        // ... (前面既有的程式碼) ...
+
+        // --- ⬇️ 請新增這段程式碼 ⬇️ ---
+
+        // 1. 蓮之愛互動卡片：點擊「X」關閉
+        const lotusCloseBtn = document.querySelector('#lt-full-screen-popup .close-btn');
+        if (lotusCloseBtn) {
+            lotusCloseBtn.addEventListener('click', Utils.closeLotusTraitCard);
+        }
+
+        // 2. 蓮之愛互動卡片：點擊「灰色背景」也能關閉 (優化體驗)
+        const lotusPopup = document.getElementById('lt-full-screen-popup');
+        if (lotusPopup) {
+            lotusPopup.addEventListener('click', Utils.closeLotusTraitCard);
+        }
+
+        // --- ⬆️ 新增結束 ⬆️ ---
+
+        // ... (後面原本的程式碼，如鍵盤導航等) ...
+    }
     // 鍵盤導航
     document.addEventListener('keydown', (e) => {
         // 如果 Modal 開啟中，ESC 關閉 Modal
