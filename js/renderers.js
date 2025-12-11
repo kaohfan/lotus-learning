@@ -492,7 +492,62 @@ export function renderPoemReading(data, container) {
 
     container.appendChild(group);
 }
+// ... (其他的 render 函數)
 
+export function renderSummaryImage(data, container) {
+    // 1. 標籤與標題
+    const tag = document.createElement('div');
+    tag.className = 'tag study'; // 使用 study 樣式
+    tag.innerText = '重點統整';
+
+    const pageTitle = document.createElement('div');
+    pageTitle.className = 'content-page-title';
+    pageTitle.innerText = data.title;
+
+    // 2. 圖片容器
+    const imgContainer = document.createElement('div');
+    // 使用 Tailwind class 快速排版
+    imgContainer.className = 'w-full flex flex-col items-center cursor-zoom-in p-5';
+    // 綁定全螢幕檢視事件 (使用現有的 openFullscreenImage)
+    imgContainer.onclick = () => window.openFullscreenImage(data.src);
+
+    const img = document.createElement('img');
+    img.src = data.src;
+    img.alt = data.alt;
+    img.className = 'max-w-[90%] max-h-[60vh] rounded-lg shadow-xl border-4 border-white transition-transform duration-300 hover:scale-[1.02] hover:shadow-2xl object-contain bg-white';
+
+    // 圖片載入失敗處理
+    img.onerror = function () {
+        this.style.display = 'none';
+        const errMsg = document.createElement('div');
+        errMsg.className = 'text-red-600 text-2xl font-bold text-center border-2 border-red-200 p-8 rounded-lg bg-red-50';
+        errMsg.innerHTML = `找不到圖片<br><span class="text-lg text-gray-500 font-normal mt-2 block">請確認圖片連結是否正確</span>`;
+        imgContainer.appendChild(errMsg);
+    };
+
+    // 3. 提示文字
+    const hint = document.createElement('div');
+    hint.className = 'mt-4 text-stone-500 text-xl flex items-center gap-2 bg-white/80 px-4 py-2 rounded-full border border-stone-200 shadow-sm font-bold animate-pulse';
+    hint.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
+        點擊圖片放大全螢幕
+    `;
+
+    // 4. 組裝
+    imgContainer.appendChild(img);
+    imgContainer.appendChild(hint);
+
+    const group = document.createElement('div');
+    group.className = 'sentence-group';
+    group.style.alignItems = 'center';
+    group.style.width = '100%';
+
+    group.appendChild(tag);
+    group.appendChild(pageTitle);
+    group.appendChild(imgContainer);
+
+    container.appendChild(group);
+}
 export function renderReadingChallenge(data, container) {
     const topBar = document.createElement('div');
     topBar.style.width = '100%';

@@ -745,7 +745,76 @@ export const pagesData = [
                 explanation: "更加 ／ 增加"
             }
         ]
+    },
+// ... (前面的資料)
+
+    // --- 第一頁：原文解析 (一) ---
+    {
+        id: 49, // 記得修改 ID 以接續上一筆
+        type: "text-study", // 使用現有的課文解讀模板
+        title: "孟子：窮達之道 (一)",
+        sentences: [
+            {
+                text: "古之人，得志，澤加於民；",
+                notes: [
+                    { term: "得志", def: "當一個人在政治或事業上成功時。", type: "main" },
+                ],
+                trans: "當一個人在政治或事業上成功時，會把恩惠、福澤施加給百姓。"
+            },
+            {
+                text: "不得志，修身見於世。",
+                notes: [
+                    { term: "不得志", def: "指失意時。", type: "sup" },
+                    { term: "修身", def: "注重個人品德的修養，提升自我。", type: "main" }
+                ],
+                trans: "當不得志、失意時，會注重個人品德的修養，提升自我。"
+            }
+        ]
+    },
+
+    // --- 第二頁：原文解析 (二) ---
+    {
+        id: 50,
+        type: "text-study",
+        title: "孟子：窮達之道 (二)",
+        sentences: [
+            {
+                text: "窮則獨善其身，",
+                notes: [
+                    { term: "窮", def: "指不得志、失意。", type: "main" },
+                    { term: "獨善其身", def: "指在個人孤立無援時，能堅守個人的節操和品德，潔身自好。", type: "main" }
+                ],
+                trans: "在個人孤立無援時，能堅守個人的節操和品德，潔身自好。"
+            },
+            {
+                text: "達則兼善天下。",
+                notes: [
+                    { term: "達", def: "指得志、順利。", type: "main" },
+                    { term: "兼善天下", def: "指在獲得成功、有能力時，要努力造福天下百姓。", type: "main" }
+                ],
+                trans: "在獲得成功、有能力時，要努力造福天下百姓。"
+            }
+        ]
+    },
+
+    // --- 第三頁：影音欣賞 ---
+    {
+        id: 51,
+        type: "video", // 使用現有的 video 模板
+        title: "給你的人生順逆生存指南",
+        videoSrc: "https://drive.google.com/file/d/1xFETzKhiJQlxhfhU9BEGXB0CXEtv3HBK/preview",
+        description: "觀賞影片，了解孟子對於人生順境與逆境的處世哲學。"
+    },
+
+    // --- 第四頁：圖片總結 (新增類型) ---
+    {
+        id: 52,
+        type: "summary-image", // 新類型，需要新增渲染邏輯
+        title: "人生攻略總結",
+        src: "https://class.kh.edu.tw/sites/4609/upload_file/30/50.png",
+        alt: "孟子的人生攻略：順境與逆境的生存指南"
     }
 
+    // ... (後面的資料)
     // ... (後面的資料)
 ];

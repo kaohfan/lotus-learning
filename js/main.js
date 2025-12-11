@@ -36,6 +36,7 @@ const rendererMap = {
     'cloze-passage': Renderers.renderClozePassage,
     'word-meaning-quiz': Renderers.renderWordMeaningQuiz,
     'card': Renderers.renderCard,
+    'summary-image': Renderers.renderSummaryImage,
     // 如果有未定義的 type，稍後會使用預設的 renderCard
 };
 
